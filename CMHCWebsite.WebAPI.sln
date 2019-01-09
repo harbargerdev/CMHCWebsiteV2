@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMHCWebsite.WebAPI", "CMHCWebsite.WebAPI\CMHCWebsite.WebAPI.csproj", "{0EB902F1-AE9C-467F-9ADF-2D868A7A2978}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMHCWebsite.Library", "CMHCWebsite.Library\CMHCWebsite.Library.csproj", "{67365552-E09D-4805-A681-58BBA3E9C2D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EB902F1-AE9C-467F-9ADF-2D868A7A2978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB902F1-AE9C-467F-9ADF-2D868A7A2978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB902F1-AE9C-467F-9ADF-2D868A7A2978}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB902F1-AE9C-467F-9ADF-2D868A7A2978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67365552-E09D-4805-A681-58BBA3E9C2D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67365552-E09D-4805-A681-58BBA3E9C2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67365552-E09D-4805-A681-58BBA3E9C2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67365552-E09D-4805-A681-58BBA3E9C2D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB48BEB7-DF80-435C-8279-88031A0B6F90}
+	EndGlobalSection
+EndGlobal
