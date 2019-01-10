@@ -6,9 +6,9 @@ namespace CMHCWebsite.Library.MeetupAPI.Entities
 {
     public class MeetupGroupEntity
     {
-        public int Created { get; set; }
+        public Int64 Created { get; set; }
         public string Name { get; set; }
-        public int Id { get; set; }
+        public Int64 Id { get; set; }
         public string JoinMode { get; set; }
         public long Lat { get; set; }
         public long Lon { get; set; }

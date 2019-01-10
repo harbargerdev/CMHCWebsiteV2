@@ -1,6 +1,6 @@
 ﻿body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    background-color: lightskyblue;
+    background-color: white;
 }
 
 div {
@@ -9,6 +9,11 @@ div {
 
 p {
     padding: 2px;
+}
+
+tr:nth-child(even) {
+    background-color: #ccffcc;
+    padding: 1px;
 }
 
 /* Hide/rearrange for smaller screens */
