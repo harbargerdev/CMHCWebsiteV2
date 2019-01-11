@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -54,8 +54,16 @@ namespace CMHCWebsite.Presenter.Controllers
             return View();
         }
 
-        public IActionResult History()
+        public IActionResult History(string activeView = "mission")
         {
+            try
+            {
+                ViewData["Content"] = GetContent(activeView);
+            }
+            catch (Exception ex)
+            {
+            }
+
             return View();
         }
 

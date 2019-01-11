@@ -2,20 +2,7 @@
 @{
     ViewData["Title"] = "Mission and History";
 }
-<br/>
-<br/>
-<br/>
-<h2>Our Mission</h2>
+@Html.ActionLink("Mission", "History", "Home", new { activeView = "mission" })      @Html.ActionLink("History", "History", "Home", new { activeView = "history" })
 <div class="content">
-    <p>
-        Our mission is to provide outreach and education to people who are in need of Mental Health Care. We want to provide
-        ways to safely interact with other people, who may suffer, or who may not suffer from mental health issues.
-    </p>
-</div>
-
-<h2>Our History</h2>
-<div class="content">
-    <p>
-        In a Galaxy, far, far, away ...
-    </p>
+    @Html.Raw(ViewData["Content"])
 </div>
