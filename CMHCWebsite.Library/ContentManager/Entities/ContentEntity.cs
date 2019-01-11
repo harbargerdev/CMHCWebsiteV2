@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace CMHCWebsite.Library.ContentManager.Entities
 {
@@ -10,7 +11,9 @@ namespace CMHCWebsite.Library.ContentManager.Entities
     public class ContentEntity
     {
         public DateTime LastUpdDt { get; set; }
+        [JsonProperty("ContentKey")]
         public string ContentKey { get; set; }
+        [JsonProperty("Content")]
         public string ContentHtml { get; set; }
         public ContentSource Source { get; set; }
 

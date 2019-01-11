@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using CMHCWebsite.Presenter.Models;
 using CMHCWebsite.Library.MeetupAPI;
 using CMHCWebsite.Library.MeetupAPI.Entities;
+using CMHCWebsite.Library.ContentManager;
 
 namespace CMHCWebsite.Presenter.Controllers
 {
@@ -14,6 +15,18 @@ namespace CMHCWebsite.Presenter.Controllers
     {
         public IActionResult Index()
         {
+            string content = string.Empty;
+
+            try
+            {
+                content = GetContent("HomePage");
+            }
+            catch (Exception)
+            {
+            }
+
+            ViewData["Content"] = content;
+
             return View();
         }
 
@@ -41,22 +54,27 @@ namespace CMHCWebsite.Presenter.Controllers
             return View();
         }
 
+        public IActionResult History()
+        {
+            return View();
+        }
+
+        public IActionResult Staff()
+        {
+            return View();
+        }
+
+        public IActionResult CrisisHelp()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        public IActionResult AboutUS(string viewMode = null)
-        {
-            if (viewMode == null)
-                viewMode = "history";
-
-            ViewData["ActiveView"] = viewMode;
-
-            return View();
-        }
-
+        
         #region Helper Methods
 
         private string BuildEventsTable(List<MeetupEventEntity> events)
@@ -97,6 +115,13 @@ namespace CMHCWebsite.Presenter.Controllers
             }
 
             return html;
+        }
+
+        private string GetContent(string key)
+        {
+            ContentUtility cUtility = new ContentUtility();
+
+            return cUtility.GetContent(Library.ContentManager.Entities.ContentSource.DynamoDb, key);
         }
 
         #endregion
