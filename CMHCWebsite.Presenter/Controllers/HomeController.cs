@@ -15,18 +15,13 @@ namespace CMHCWebsite.Presenter.Controllers
     {
         public IActionResult Index()
         {
-            string content = string.Empty;
-
             try
             {
-                content = GetContent("HomePage");
+                ViewData["Content"] = GetContent("HomePage");
             }
             catch (Exception)
             {
             }
-
-            ViewData["Content"] = content;
-
             return View();
         }
 
@@ -54,7 +49,7 @@ namespace CMHCWebsite.Presenter.Controllers
             return View();
         }
 
-        public IActionResult History(string activeView = "mission")
+        public IActionResult History(string activeView = "Mission")
         {
             try
             {
@@ -63,12 +58,12 @@ namespace CMHCWebsite.Presenter.Controllers
             catch (Exception ex)
             {
             }
-
             return View();
         }
 
-        public IActionResult Staff()
+        public IActionResult AboutUs(string activeView = "")
         {
+
             return View();
         }
 
@@ -130,6 +125,13 @@ namespace CMHCWebsite.Presenter.Controllers
             ContentUtility cUtility = new ContentUtility();
 
             return cUtility.GetContent(Library.ContentManager.Entities.ContentSource.DynamoDb, key);
+        }
+
+        private string BuildStaffingTable(string key)
+        {
+
+
+            return string.Empty;
         }
 
         #endregion

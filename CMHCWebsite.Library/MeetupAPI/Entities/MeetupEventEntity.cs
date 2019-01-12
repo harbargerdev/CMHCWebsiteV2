@@ -27,6 +27,7 @@ namespace CMHCWebsite.Library.MeetupAPI.Entities
         public Int64 YesRSVPCount { get; set; }
         public MeetupVenueEntity Venue { get; set; }
         public MeetupGroupEntity Group { get; set; }
+        [JsonProperty("link")]
         public string Url { get; set; }
         public string Description { get; set; }
         public string Visibility { get; set; }
