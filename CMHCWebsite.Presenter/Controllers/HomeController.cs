@@ -158,13 +158,30 @@ namespace CMHCWebsite.Presenter.Controllers
             var staff = utility.GetStaff(sType);
 
             builder.Append("<table id=\"staffTable\">");
-            builder.Append("<col width =\"120\"><col width=\"20\"><col width=\"20\"><col width=\"300\"><col width=\"60\">");
+            builder.Append("<col width =\"120\"><col width=\"120\"><col width=\"120\"><col width=\"400\"><col width=\"80\">");
             builder.Append("<tr><th>Staff Name</th><th>Type</th><th>Role</th><th>Bio</th><th>Picture</th></tr>");
 
             foreach(StaffEntity member in staff)
             {
+                string typeDesc = string.Empty;
+                switch(member.Category)
+                {
+                    case STAFF_TYPE.FullTimeStaff:
+                        typeDesc = "Full-time Staff";
+                        break;
+                    case STAFF_TYPE.PartTimeStaff:
+                        typeDesc = "Part-time Staff";
+                        break;
+                    case STAFF_TYPE.Volunteer:
+                        typeDesc = "Volunteer";
+                        break;
+                    default:
+                        break;
+                }
+
+
                 string fullName = member.FirstName + " " + member.LastName;
-                builder.Append("<tr><td>" + fullName + "</td><td>" + member.Category.ToString() + "</td><td>" + member.Role + "</td><td>" +
+                builder.Append("<tr><td>" + fullName + "</td><td>" + typeDesc + "</td><td>" + member.Role + "</td><td>" +
                     member.Bio + "</td><td><img class=\"profile\" src=\"" + member.ImgUrl + "\", alt=\"" + fullName +"\"</td>");
             }
 
