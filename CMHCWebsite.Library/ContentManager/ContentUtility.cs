@@ -70,6 +70,34 @@ namespace CMHCWebsite.Library.ContentManager
             return staff;
         }
 
+        public bool UpdateContent(ContentEntity content)
+        {
+            AmazonDynamoDBConfig clientConfig = new AmazonDynamoDBConfig();
+            clientConfig.RegionEndpoint = RegionEndpoint.USEast1;
+
+            AmazonDynamoDBClient client = new AmazonDynamoDBClient(clientConfig);
+
+            Dictionary<string, AttributeValue> item = new Dictionary<string, AttributeValue>();
+            item["ContentKey"] = new AttributeValue() { S = content.ContentKey };
+            item["Content"] = new AttributeValue() { S = "<p>" + content.ContentHtml + "</p>" };
+
+            PutItemRequest request = new PutItemRequest()
+            {
+                TableName = TABLE_NAME,
+                Item = item
+            };
+
+            try
+            {
+                var response = client.PutItemAsync(request);
+                return response.Result.HttpStatusCode == HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         #region Private Methods
 
         private string GetContentFromDynamoDb(string key)

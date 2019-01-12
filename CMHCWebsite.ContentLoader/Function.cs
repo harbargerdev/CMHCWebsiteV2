@@ -1,20 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Amazon;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.S3Events;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Util;
 
 using CMHCWebsite.Library.ContentManager;
+using CMHCWebsite.Library.ContentManager.Entities;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 namespace CMHCWebsite.ContentLoader
 {
     public class Function
     {
+        private const string BUCKET_NAME = "cmhc-test-contentloader";
         IAmazonS3 S3Client { get; set; }
 
         /// <summary>
@@ -53,11 +57,31 @@ namespace CMHCWebsite.ContentLoader
 
             try
             {
-                var response = await this.S3Client.GetObjectMetadataAsync(s3Event.Bucket.Name, s3Event.Object.Key);
+                string responsebody = "";
+
+                GetObjectRequest getRequest = new GetObjectRequest()
+                {
+                    BucketName = BUCKET_NAME,
+                    Key = evnt.Records.FirstOrDefault().S3.Object.Key
+                };
+
+                using (GetObjectResponse getResponse = await S3Client.GetObjectAsync(getRequest))
+                using (Stream responseStream = getResponse.ResponseStream)
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    responsebody = reader.ReadToEnd();
+                }
+
+                ContentEntity content = new ContentEntity()
+                {
+                    ContentKey = getRequest.Key,
+                    ContentHtml = responsebody
+                };
 
                 ContentUtility utility = new ContentUtility();
-
-                return response.Headers.ContentType;
+                bool result = utility.UpdateContent(content);
+                
+                return result ? "Content was updated successfully." : "Content failed to update, please check the error logs.";
             }
             catch(Exception e)
             {
