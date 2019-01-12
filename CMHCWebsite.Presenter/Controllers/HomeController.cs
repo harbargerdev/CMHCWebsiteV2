@@ -8,6 +8,8 @@ using CMHCWebsite.Presenter.Models;
 using CMHCWebsite.Library.MeetupAPI;
 using CMHCWebsite.Library.MeetupAPI.Entities;
 using CMHCWebsite.Library.ContentManager;
+using CMHCWebsite.Library.ContentManager.Entities;
+using System.Text;
 
 namespace CMHCWebsite.Presenter.Controllers
 {
@@ -53,7 +55,10 @@ namespace CMHCWebsite.Presenter.Controllers
         {
             try
             {
-                ViewData["Content"] = GetContent(activeView);
+                if (activeView.Equals("Staff"))
+                    ViewData["Content"] = BuildStaffingTable(activeView);
+                else
+                    ViewData["Content"] = GetContent(activeView);
             }
             catch (Exception ex)
             {
@@ -129,9 +134,42 @@ namespace CMHCWebsite.Presenter.Controllers
 
         private string BuildStaffingTable(string key)
         {
+            StringBuilder builder = new StringBuilder();
+            ContentUtility utility = new ContentUtility();
 
+            STAFF_TYPE sType;
 
-            return string.Empty;
+            switch(key)
+            {
+                case "Volunteer":
+                    sType = STAFF_TYPE.Volunteer;
+                    break;
+                case "PartTime":
+                    sType = STAFF_TYPE.PartTimeStaff;
+                    break;
+                case "Fulltime":
+                    sType = STAFF_TYPE.FullTimeStaff;
+                    break;
+                default:
+                    sType = STAFF_TYPE.All;
+                    break;
+            }
+
+            var staff = utility.GetStaff(sType);
+
+            builder.Append("<table id=\"staffTable\">");
+            builder.Append("<tr><th>Staff Name</th><th>Role</th><th>Bio</th><th>Picture</th></tr>");
+
+            foreach(StaffEntity member in staff)
+            {
+                string fullName = member.FirstName + " " + member.LastName;
+                builder.Append("<tr><td>" + fullName + "</td><td>" + member.Role + "</td><td>" + member.Bio + "</td><td><img src=\"" + member.ImgUrl +
+                    "\", alt=\"" + fullName +"\"</td>");
+            }
+
+            builder.Append("</table>");
+
+            return builder.ToString();
         }
 
         #endregion
