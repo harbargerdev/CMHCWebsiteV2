@@ -158,13 +158,14 @@ namespace CMHCWebsite.Presenter.Controllers
             var staff = utility.GetStaff(sType);
 
             builder.Append("<table id=\"staffTable\">");
-            builder.Append("<tr><th>Staff Name</th><th>Role</th><th>Bio</th><th>Picture</th></tr>");
+            builder.Append("<col width =\"120\"><col width=\"20\"><col width=\"20\"><col width=\"300\"><col width=\"60\">");
+            builder.Append("<tr><th>Staff Name</th><th>Type</th><th>Role</th><th>Bio</th><th>Picture</th></tr>");
 
             foreach(StaffEntity member in staff)
             {
                 string fullName = member.FirstName + " " + member.LastName;
-                builder.Append("<tr><td>" + fullName + "</td><td>" + member.Role + "</td><td>" + member.Bio + "</td><td><img src=\"" + member.ImgUrl +
-                    "\", alt=\"" + fullName +"\"</td>");
+                builder.Append("<tr><td>" + fullName + "</td><td>" + member.Category.ToString() + "</td><td>" + member.Role + "</td><td>" +
+                    member.Bio + "</td><td><img class=\"profile\" src=\"" + member.ImgUrl + "\", alt=\"" + fullName +"\"</td>");
             }
 
             builder.Append("</table>");

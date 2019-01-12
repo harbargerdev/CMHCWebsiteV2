@@ -182,11 +182,23 @@ optgroup {
 table {
   border-spacing: 0;
   border-collapse: collapse;
+  border: solid;
+  border-width: medium;
 }
 td,
 th {
   padding: 0;
 }
+
+tr:nth-child(even) {
+    background-color: #ccffcc;
+    padding: 1px;
+}
+
+.profile {
+    max-height: 80px;
+}
+
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
 @media print {
   *,
@@ -6754,4 +6766,5 @@ button.close {
     display: none !important;
   }
 }
+
 /*# sourceMappingURL=bootstrap.css.map */
