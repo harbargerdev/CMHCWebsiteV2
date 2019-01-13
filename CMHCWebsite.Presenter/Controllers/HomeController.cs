@@ -91,7 +91,7 @@ namespace CMHCWebsite.Presenter.Controllers
 
             if(events.Count > 0)
             {
-                html = "<table id=\"upcomingEventsTable\" style=\"padding: 1px;width: 99%;\">";
+                html = "<table id=\"upcomingEventsTable\" class=\"table-striped\" style=\"padding: 1px;width: 99%;\">";
                 html += "<col width=\"4\"><col width=\"4\"><col width=\"75\"><col width=\"6\"><col width=\"6\">" +
                     "<col width=\"30\"><col width=\"15\"";
                 html += "<tr style=\"font-weight: bold;\"><th>Date</th><th>Time</th><th>Event Title</th>" +
@@ -157,7 +157,7 @@ namespace CMHCWebsite.Presenter.Controllers
 
             var staff = utility.GetStaff(sType);
 
-            builder.Append("<table id=\"staffTable\">");
+            builder.Append("<table class=\"table-striped\" id=\"staffTable\">");
             builder.Append("<col width =\"120\"><col width=\"120\"><col width=\"120\"><col width=\"400\"><col width=\"80\">");
             builder.Append("<tr><th>Staff Name</th><th>Type</th><th>Role</th><th>Bio</th><th>Picture</th></tr>");
 
