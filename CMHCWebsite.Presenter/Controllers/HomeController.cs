@@ -97,9 +97,8 @@ namespace CMHCWebsite.Presenter.Controllers
 
             if(events.Count > 0)
             {
-                html = "<table id=\"upcomingEventsTable\" class=\"table-striped\" style=\"padding: 1px;width: 99%;\">";
-                html += "<tr style=\"font-weight: bold;\"><th>Event Start</th><th>Event Title</th><th>RSVPs</th>" + 
-                    "<th>Location Name</th><th></th></tr>";
+                html = "<table id=\"upcomingEventsTable\" class=\"table-striped\" style=\"padding: 1px;width: 90%;\">";
+                html += "<tr><th style=\"width: 15%;\">Event Start</th><th style=\"width: 30%;\">Event Title</th><th style=\"width: 5%;\">RSVPs</th><th style=\"width: 35%;\">Location Name</th><th style=\"width: 7%;\"></th></tr>";
 
                 foreach(MeetupEventEntity mEvent in events)
                 {
@@ -157,7 +156,7 @@ namespace CMHCWebsite.Presenter.Controllers
             var staff = utility.GetStaff(sType);
 
             builder.Append("<table class=\"table-striped\" id=\"staffTable\">");
-            builder.Append("<col width =\"120\"><col width=\"120\"><col width=\"120\"><col width=\"400\"><col width=\"80\">");
+            builder.Append("<col width =\"120\"><col width: \"120\"><col width: \"120\"><col width: \"400\"><col width: \"80\">");
             builder.Append("<tr><th>Staff Name</th><th>Type</th><th>Role</th><th>Bio</th><th>Picture</th></tr>");
 
             foreach(StaffEntity member in staff)
