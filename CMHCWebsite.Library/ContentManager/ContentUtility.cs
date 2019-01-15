@@ -16,7 +16,7 @@ namespace CMHCWebsite.Library.ContentManager
     {
         private string DEFAULT_REGION = "us-east-1";
         private string TABLE_NAME = "CMHC.ContentSite.Content";
-        private string STAFF_DB_CONN_STRING = "Data Source=chmc-test-staffdb.cfzsqoiopsi0.us-east-1.rds.amazonaws.com,1433;Initial Catalog=StaffDb;User ID=cmhc_development;Password=AskMe2Care!";
+        private string STAFF_DB_CONN_STRING = "";
         private string IMG_URL_PREFIX = "http://cmhc-test-staff-images.s3-website-us-east-1.amazonaws.com/";
 
         public ContentUtility() { }

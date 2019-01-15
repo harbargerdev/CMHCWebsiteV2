@@ -13,7 +13,7 @@ namespace CMHCWebsite.Library.MeetupAPI
         private string BaseURI { get { return @"https://api.meetup.com/"; } }
         private string GroupId { get { return "107160"; } }
         private string GroupUrl { get { return "Columbus-Mental-Health-Support-and-Social-Meetup"; } }
-        private string ApiKey { get { return "642a42d14632e292461297723751349"; } }
+        private string ApiKey { get { return ""; } }
 
         public MeetupApiProxy() { }
 
