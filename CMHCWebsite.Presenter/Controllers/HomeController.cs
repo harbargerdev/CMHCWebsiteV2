@@ -98,25 +98,19 @@ namespace CMHCWebsite.Presenter.Controllers
             if(events.Count > 0)
             {
                 html = "<table id=\"upcomingEventsTable\" class=\"table-striped\" style=\"padding: 1px;width: 99%;\">";
-                html += "<col width=\"4\"><col width=\"4\"><col width=\"75\"><col width=\"6\"><col width=\"6\">" +
-                    "<col width=\"30\"><col width=\"15\"";
-                html += "<tr style=\"font-weight: bold;\"><th>Date</th><th>Time</th><th>Event Title</th>" +
-                    "<th>RSVPs</th><th>Wait List</th><th>Location Name</th><th></th></tr>";
+                html += "<col width=\"1\"><col width=\"75\"><col width=\"6\"><col width=\"30\"><col width=\"15\"";
+                html += "<tr style=\"font-weight: bold;\"><th>Event Start</th><th>Event Title</th><th>RSVPs</th>" + 
+                    "<th>Location Name</th><th></th></tr>";
 
                 foreach(MeetupEventEntity mEvent in events)
                 {
                     html += "<tr>";
-                    // Event Date
-                    html += "<td>" + mEvent.LocalDate + "</td>";
-                    // Event Time
-                    html += "<td>" + mEvent.LocalTime + "</td>";
+                    // Event Date Time
+                    html += "<td>" + mEvent.EventStart.ToString("MM/dd/yyyy hh:mm tt") + "</td>";
                     // Event Title
                     html += "<td>" + mEvent.Name + "</td>";
                     // RSVPs
                     html += "<td>" + mEvent.YesRSVPCount + "</td>";
-                    // Wait List
-                    string hasWaitList = mEvent.WaitlistCount > 0 ? "Y" : "N";
-                    html += "<td>" + hasWaitList + "</td>";
                     // Location Name
                     html += "<td>" + mEvent.Venue.Name + "</td>";
                     // Link

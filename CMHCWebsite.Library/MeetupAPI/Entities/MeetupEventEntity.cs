@@ -15,9 +15,9 @@ namespace CMHCWebsite.Library.MeetupAPI.Entities
         public string Status { get; set; }
         public Int64 Time { get; set; }
         [JsonProperty("local_date")]
-        public string LocalDate { get; set; }
+        public string LocalDateStr { get; set; }
         [JsonProperty("local_time")]
-        public string LocalTime { get; set; }
+        public string LocalTimeStr { get; set; }
         public Int64 Updated { get; set; }
         [JsonProperty("utc_offset")]
         public Int64 UTCOffset { get; set; }
@@ -31,5 +31,22 @@ namespace CMHCWebsite.Library.MeetupAPI.Entities
         public string Url { get; set; }
         public string Description { get; set; }
         public string Visibility { get; set; }
+
+        public DateTime EventStart
+        {
+          get { return LocalDateTime(); }
+        }
+
+        private DateTime LocalDateTime()
+        {
+            DateTime eventStart = new DateTime();
+
+            if (LocalDateStr != null && LocalDateStr != string.Empty && LocalTimeStr != null && LocalTimeStr != string.Empty)
+            {
+                eventStart = DateTime.Parse(LocalDateStr + " " + LocalTimeStr);
+            }
+
+            return eventStart;
+        }
     }
 }
