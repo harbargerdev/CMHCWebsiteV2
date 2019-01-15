@@ -17,6 +17,7 @@ namespace CMHCWebsite.Library.ContentManager
         private string DEFAULT_REGION = "us-east-1";
         private string TABLE_NAME = "CMHC.ContentSite.Content";
         private string IMG_URL_PREFIX = "http://cmhc-test-staff-images.s3-website-us-east-1.amazonaws.com/";
+        private string STAFF_DB_CONN_STRING = "";
 
         public ContentUtility() { }
 
