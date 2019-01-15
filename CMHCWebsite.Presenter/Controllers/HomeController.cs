@@ -98,7 +98,6 @@ namespace CMHCWebsite.Presenter.Controllers
             if(events.Count > 0)
             {
                 html = "<table id=\"upcomingEventsTable\" class=\"table-striped\" style=\"padding: 1px;width: 99%;\">";
-                html += "<col width=\"1\"><col width=\"75\"><col width=\"6\"><col width=\"30\"><col width=\"15\"";
                 html += "<tr style=\"font-weight: bold;\"><th>Event Start</th><th>Event Title</th><th>RSVPs</th>" + 
                     "<th>Location Name</th><th></th></tr>";
 
