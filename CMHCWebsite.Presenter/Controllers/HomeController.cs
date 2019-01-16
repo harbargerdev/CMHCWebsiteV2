@@ -156,8 +156,8 @@ namespace CMHCWebsite.Presenter.Controllers
             var staff = utility.GetStaff(sType);
 
             builder.Append("<table class=\"table-striped\" id=\"staffTable\">");
-            builder.Append("<col width =\"120\"><col width: \"120\"><col width: \"120\"><col width: \"400\"><col width: \"80\">");
-            builder.Append("<tr><th>Staff Name</th><th>Type</th><th>Role</th><th>Bio</th><th>Picture</th></tr>");
+            builder.Append("<tr><th style=\"width: 15%\">Staff Name</th><th style=\"width: 15%\">Type</th>" + 
+                "<th style=\"width: 15%\">Role</th><th style=\"width: 25%\">Bio</th><th>Picture</th></tr>");
 
             foreach(StaffEntity member in staff)
             {

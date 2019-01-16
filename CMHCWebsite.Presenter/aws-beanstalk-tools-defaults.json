@@ -1,18 +1,18 @@
 
 {
     "comment" : "This file is used to help set default values when using the dotnet CLI extension Amazon.ElasticBeanstalk.Tools. For more information run \"dotnet eb --help\" from the project root.",
-    "profile" : "andrew.harbarger",
+    "profile" : "cmhc_developer",
     "region"  : "us-east-1",
     "application" : "CMHCWebsitePresenter",
-    "environment" : "CMHCWebsitePresenter-dev",
-    "cname"       : "cmhcwebsitepresenter-dev",
+    "environment" : "CMHCWebsitePresenter-test",
+    "cname"       : "cmhcwebsitepresenter-test",
     "solution-stack" : "64bit Windows Server 2016 v1.2.0 running IIS 10.0",
     "environment-type" : "SingleInstance",
-    "instance-profile" : "CMHC.PresenterRole",
+    "instance-profile" : "cmhc.website",
     "service-role"     : "aws-elasticbeanstalk-service-role",
     "health-check-url" : "/",
     "instance-type"    : "t2.micro",
-    "key-pair"         : "cmhc.presenter-kp",
+    "key-pair"         : "cmhc_dev_key",
     "iis-website"      : "Default Web Site",
     "app-path"         : "/",
     "enable-xray"      : false
