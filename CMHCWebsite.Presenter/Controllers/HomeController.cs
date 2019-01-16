@@ -29,8 +29,6 @@ namespace CMHCWebsite.Presenter.Controllers
 
         public IActionResult UpcomingEvents()
         {
-            ViewData["Message"] = "Upcoming Meetups";
-
             MeetupApiProxy proxy = new MeetupApiProxy();
             var events = proxy.GetUpcomingEvents();
 
@@ -42,7 +40,6 @@ namespace CMHCWebsite.Presenter.Controllers
         public IActionResult DiscussionBoard()
         {
             ViewData["Message"] = "Discussion Board";
-
             return View();
         }
 
@@ -72,13 +69,24 @@ namespace CMHCWebsite.Presenter.Controllers
             return View();
         }
 
-        public IActionResult AboutUs(string activeView = "")
+        public IActionResult CrisisHelp()
         {
-
             return View();
         }
 
-        public IActionResult CrisisHelp()
+        public IActionResult Resources(string activeView = "localResources")
+        {
+            ViewData["Content"] = GetContent(activeView);
+            return View();
+        }
+
+        public IActionResult HelpUs(string activeView = "volunteer")
+        {
+            ViewData["Content"] = GetContent(activeView);
+            return View();
+        }
+
+        public IActionResult ContactUs()
         {
             return View();
         }
@@ -127,7 +135,7 @@ namespace CMHCWebsite.Presenter.Controllers
         {
             ContentUtility cUtility = new ContentUtility();
 
-            return cUtility.GetContent(Library.ContentManager.Entities.ContentSource.DynamoDb, key);
+            return cUtility.GetContent(ContentSource.DynamoDb, key);
         }
 
         private string BuildStaffingTable(string key)
