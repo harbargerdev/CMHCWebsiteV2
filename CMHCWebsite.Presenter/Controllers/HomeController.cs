@@ -118,9 +118,9 @@ namespace CMHCWebsite.Presenter.Controllers
                     // RSVPs
                     html += "<td>" + mEvent.YesRSVPCount + "</td>";
                     // Location Name
-                    html += "<td><a href=\"" + BuildMapsUrl(mEvent.Venue) + "\">" + mEvent.Venue.Name + "</a></td>";
+                    html += "<td><a href=\"" + BuildMapsUrl(mEvent.Venue) + "\" target=\"_blank\" \">" + mEvent.Venue.Name + "</a></td>";
                     // Link
-                    html += "<td><a href=\"" + mEvent.Url + "\">Join Now!</a></td>";
+                    html += "<td><a href=\"" + mEvent.Url + "\"  target=\"_blank\" >Join Now!</a></td>";
 
                     html += "</tr>";
                 }
