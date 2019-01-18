@@ -118,7 +118,7 @@ namespace CMHCWebsite.Presenter.Controllers
                     // RSVPs
                     html += "<td>" + mEvent.YesRSVPCount + "</td>";
                     // Location Name
-                    html += "<td>" + mEvent.Venue.Name + "</td>";
+                    html += "<td><a href=\"" + BuildMapsUrl(mEvent.Venue) + "\">" + mEvent.Venue.Name + "</a></td>";
                     // Link
                     html += "<td><a href=\"" + mEvent.Url + "\">Join Now!</a></td>";
 
@@ -192,6 +192,16 @@ namespace CMHCWebsite.Presenter.Controllers
             }
 
             builder.Append("</table>");
+
+            return builder.ToString();
+        }
+
+        private string BuildMapsUrl(MeetupVenueEntity venue)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append("https://www.google.com/maps/search/?api=1&query=");
+            builder.Append(venue.Lat.ToString() + "," + venue.Lon.ToString());
 
             return builder.ToString();
         }
