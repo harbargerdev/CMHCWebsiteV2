@@ -18,7 +18,8 @@ namespace CMHCWebsite.ContentLoader
 {
     public class Function
     {
-        private const string BUCKET_NAME = "cmhc-test-contentloader";
+        private const string BUCKET_NAME = "cmhc-contentloader";
+        private const string IMPORT_BUCKET_NAME = "cmhc-contentloader-imported";
         IAmazonS3 S3Client { get; set; }
 
         /// <summary>
@@ -31,10 +32,7 @@ namespace CMHCWebsite.ContentLoader
             S3Client = new AmazonS3Client();
         }
 
-        /// <summary>
-        /// Constructs an instance with a preconfigured S3 client. This can be used for testing the outside of the Lambda environment.
-        /// </summary>
-        /// <param name="s3Client"></param>
+
         public Function(IAmazonS3 s3Client)
         {
             this.S3Client = s3Client;
@@ -80,7 +78,25 @@ namespace CMHCWebsite.ContentLoader
 
                 ContentUtility utility = new ContentUtility();
                 bool result = utility.UpdateContent(content);
-                
+
+                CopyObjectRequest copyRequest = new CopyObjectRequest
+                {
+                    SourceBucket = BUCKET_NAME,
+                    SourceKey = evnt.Records.FirstOrDefault().S3.Object.Key,
+                    DestinationBucket = IMPORT_BUCKET_NAME,
+                    DestinationKey = evnt.Records.FirstOrDefault().S3.Object.Key
+                };
+
+                var copyResponse = S3Client.CopyObjectAsync(copyRequest);
+
+                DeleteObjectRequest delRequest = new DeleteObjectRequest
+                {
+                    BucketName = BUCKET_NAME,
+                    Key = evnt.Records.FirstOrDefault().S3.Object.Key
+                };
+
+                var delResponse = S3Client.DeleteObjectAsync(delRequest);
+
                 return result ? "Content was updated successfully." : "Content failed to update, please check the error logs.";
             }
             catch(Exception e)
@@ -88,7 +104,7 @@ namespace CMHCWebsite.ContentLoader
                 context.Logger.LogLine($"Error getting object {s3Event.Object.Key} from bucket {s3Event.Bucket.Name}. Make sure they exist and your bucket is in the same region as this function.");
                 context.Logger.LogLine(e.Message);
                 context.Logger.LogLine(e.StackTrace);
-                throw;
+                return "Error occured, please check the logs.";
             }
         }
     }
