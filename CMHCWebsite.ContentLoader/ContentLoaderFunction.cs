@@ -12,11 +12,12 @@ using Amazon.S3.Util;
 
 using CMHCWebsite.Library.ContentManager;
 using CMHCWebsite.Library.ContentManager.Entities;
+using Newtonsoft.Json;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 namespace CMHCWebsite.ContentLoader
 {
-    public class Function
+    public class ContentLoaderFunction
     {
         private const string BUCKET_NAME = "cmhc-contentloader";
         private const string IMPORT_BUCKET_NAME = "cmhc-contentloader-imported";
@@ -27,13 +28,13 @@ namespace CMHCWebsite.ContentLoader
         /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
         /// region the Lambda function is executed in.
         /// </summary>
-        public Function()
+        public ContentLoaderFunction()
         {
             S3Client = new AmazonS3Client();
         }
 
 
-        public Function(IAmazonS3 s3Client)
+        public ContentLoaderFunction(IAmazonS3 s3Client)
         {
             this.S3Client = s3Client;
         }
@@ -45,13 +46,15 @@ namespace CMHCWebsite.ContentLoader
         /// <param name="evnt"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task<string> FunctionHandler(S3Event evnt, ILambdaContext context)
+        public async Task<string> S3EventHandler(S3Event evnt, ILambdaContext context)
         {
             var s3Event = evnt.Records?[0].S3;
             if(s3Event == null)
             {
                 return null;
             }
+
+
 
             try
             {
@@ -106,6 +109,16 @@ namespace CMHCWebsite.ContentLoader
                 context.Logger.LogLine(e.StackTrace);
                 return "Error occured, please check the logs.";
             }
+        }
+
+        private void LogTracer(string step, object obj)
+        {
+            string json = string.Empty;
+
+            if (obj != null)
+                json = JsonConvert.SerializeObject(obj);
+
+            LambdaLogger.Log(String.Format("Step {0} starting, object definition: {1}", step, json));
         }
     }
 }
