@@ -9,6 +9,7 @@ using System.Text;
 using System.Net;
 using System.Data.SqlClient;
 using System.Data;
+using Amazon.DynamoDBv2.DocumentModel;
 
 namespace CMHCWebsite.Library.ContentManager
 {
@@ -24,6 +25,19 @@ namespace CMHCWebsite.Library.ContentManager
         public string GetContent(ContentSource source, string key)
         {
             return source == ContentSource.DynamoDb ? GetContentFromDynamoDb(key) : GetContentFromFile(key);
+        }
+
+        public List<string> GetKeys()
+        {
+            List<string> keys = new List<string>();
+
+            List<ContentEntity> fullContent = ScanTable();
+            foreach(ContentEntity content in fullContent)
+            {
+                keys.Add(content.ContentKey);
+            }
+
+            return keys;
         }
 
         public List<StaffEntity> GetStaff(STAFF_TYPE sType)
@@ -164,6 +178,50 @@ namespace CMHCWebsite.Library.ContentManager
                 default:
                     return 0;
             }
+        }
+
+        private List<ContentEntity> ScanTable()
+        {
+            List<ContentEntity> content = new List<ContentEntity>();
+
+            AmazonDynamoDBClient client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
+
+            Table contentsTable = Table.LoadTable(client,TABLE_NAME);
+
+            ScanOperationConfig scanConfig = new ScanOperationConfig();
+            Search search = contentsTable.Scan(scanConfig);
+
+            var scanResult = search.GetNextSetAsync();
+
+            if(scanResult.Result.Count > 0)
+            {
+                foreach(var record in scanResult.Result)
+                {
+                    content.Add(ConvertDocumentToContentEntity(record));
+                }
+            }
+
+            return content;
+        }
+
+        private ContentEntity ConvertDocumentToContentEntity(Document doc)
+        {
+            ContentEntity content = new ContentEntity();
+            foreach(var attribute in doc.GetAttributeNames())
+            {
+                switch(attribute)
+                {
+                    case "ContentKey":
+                        content.ContentKey = doc[attribute].AsString();
+                        break;
+                    case "Content":
+                        content.ContentHtml = doc[attribute].AsString();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return content;
         }
 
         #endregion
