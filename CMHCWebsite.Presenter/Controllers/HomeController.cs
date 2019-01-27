@@ -63,7 +63,7 @@ namespace CMHCWebsite.Presenter.Controllers
             return View();
         }
 
-        public IActionResult Programs(string activeView = "EduWorkshops")
+        public IActionResult Programs(string activeView = "Meetups")
         {
             ViewData["Content"] = GetContent(activeView);
             return View();
