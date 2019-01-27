@@ -71,6 +71,13 @@ namespace CMHCWebsite.Presenter.Controllers
 
         public IActionResult CrisisHelp()
         {
+            try
+            {
+                ViewData["Content"] = GetContent("CrisisHelp");
+            }
+            catch (Exception)
+            {
+            }
             return View();
         }
 
