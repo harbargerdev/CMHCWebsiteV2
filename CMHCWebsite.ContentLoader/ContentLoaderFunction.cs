@@ -19,8 +19,8 @@ namespace CMHCWebsite.ContentLoader
 {
     public class ContentLoaderFunction
     {
-        private const string BUCKET_NAME = "cmhc-contentloader";
-        private const string IMPORT_BUCKET_NAME = "cmhc-contentloader-imported";
+        private const string BUCKET_NAME = "cmhc-content-loader";
+        private const string IMPORT_BUCKET_NAME = "cmhc-imported";
         IAmazonS3 S3Client { get; set; }
 
         /// <summary>
@@ -48,6 +48,8 @@ namespace CMHCWebsite.ContentLoader
         /// <returns></returns>
         public async Task<string> S3EventHandler(S3Event evnt, ILambdaContext context)
         {
+            LambdaLogger.Log("Event triggered, starting S3EventHandler. Event: " + JsonConvert.SerializeObject(evnt));
+
             var s3Event = evnt.Records?[0].S3;
             if(s3Event == null)
             {
@@ -71,6 +73,7 @@ namespace CMHCWebsite.ContentLoader
                 using (StreamReader reader = new StreamReader(responseStream))
                 {
                     responsebody = reader.ReadToEnd();
+                    LambdaLogger.Log("Retrieved object from S3 and read. Body: " + responsebody);
                 }
 
                 ContentEntity content = new ContentEntity()
@@ -79,6 +82,7 @@ namespace CMHCWebsite.ContentLoader
                     ContentHtml = responsebody
                 };
 
+                LambdaLogger.Log("Calling Update content. Content: " + JsonConvert.SerializeObject(content));
                 ContentUtility utility = new ContentUtility();
                 bool result = utility.UpdateContent(content);
 
@@ -90,7 +94,9 @@ namespace CMHCWebsite.ContentLoader
                     DestinationKey = evnt.Records.FirstOrDefault().S3.Object.Key
                 };
 
+                LambdaLogger.Log("Copying to migrated bucket. Copy Request: " + JsonConvert.SerializeObject(copyRequest));
                 var copyResponse = S3Client.CopyObjectAsync(copyRequest);
+                LambdaLogger.Log("Copy executed. Copy Request: " + JsonConvert.SerializeObject(copyResponse));
 
                 DeleteObjectRequest delRequest = new DeleteObjectRequest
                 {
@@ -98,7 +104,9 @@ namespace CMHCWebsite.ContentLoader
                     Key = evnt.Records.FirstOrDefault().S3.Object.Key
                 };
 
+                LambdaLogger.Log("Delete request created, calling now ... Request: " + JsonConvert.SerializeObject(delRequest));
                 var delResponse = S3Client.DeleteObjectAsync(delRequest);
+                LambdaLogger.Log("Delete request processed. Response: " + JsonConvert.SerializeObject(delResponse));
 
                 return result ? "Content was updated successfully." : "Content failed to update, please check the error logs.";
             }
