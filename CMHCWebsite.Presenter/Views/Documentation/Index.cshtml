@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Documentation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Documentation</h2>
+
+<div>
+    This page contains documentation on implementation of the Columbus Mental Health Community Website.
+    On a high level, this site leverages AWS Elastic Beanstalk as both a deployment mechanism and a 
+    request routing mechanism. In addition, almost on content on the pages are dynamic. Maintainers of 
+    the website are able to update text documents, upload them to a bucket in S3, which will load them 
+    to a DynamoDB (NoSQL Database), and then copy to a new bucket.<br />
+    <br />
+    <img src="~/images/CMHC-Content-Digram.jpg" style="max-width: 90%;" alt="CMHC Website Diagram" /><br/>
+    <br />
+    <img src="~/images/CMHC-Content-Loader-Diagram.jpg" style="max-width: 90%" alt="CMHC Content Loader Diagram" />
+</div>

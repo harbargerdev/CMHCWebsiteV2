@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
@@ -30,18 +30,26 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Columbus Mental Health Community</a>
             </div>
-            <div class="navbar-header">
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></span>
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="History">About Us</a></span>
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="CrisisHelp">IF IN CRISIS</a></span>
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="Programs">Programming & Support</a></span>
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="HelpUs">How to Help</a></span>
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="DiscussionBoard">News</a></span>
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="UpcomingEvents">Upcoming Events</a></span>
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="Resources">Resources</a></span>
-                <span class="icon-bar"><a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a></span>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="History">About Us</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="CrisisHelp">IF IN CRISIS</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Programs">Programming & Support</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="HelpUs">How to Help</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="DiscussionBoard">News</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="UpcomingEvents">Upcoming Events</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Resources">Resources</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>
+                </ul>
             </div>
         </div>
     </nav>
