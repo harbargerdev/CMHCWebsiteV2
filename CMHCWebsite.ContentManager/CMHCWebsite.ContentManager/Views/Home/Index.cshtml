@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <select id="contentSelection">
+        <option value="HomePage">Home Page</option>
+        <option value="Mission">Mission</option>
+        <option value="History">History</option>
+        <option value="CrisisHelp">Crisis Help</option>
+        <option value="Meetups">Meetups</option>
+        <option value="CommEducation">Community Education</option>
+        <option value="volunteer">Volunteer</option>
+        <option value="advocacy">Advocacy</option>
+        <option value="localResources">Local Resources</option>
+        <option value="onlineResources">Online Resources</option>
+    </select>
+    <input type="button" id="getButton" value="Load Content" onclick="location.href='@Url.Action("Index", "Home", new { selectedValue = "" })'" />
+</div>
