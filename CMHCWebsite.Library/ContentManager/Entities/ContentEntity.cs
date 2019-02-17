@@ -15,6 +15,8 @@ namespace CMHCWebsite.Library.ContentManager.Entities
         public string ContentKey { get; set; }
         [JsonProperty("Content")]
         public string ContentHtml { get; set; }
+        [JsonProperty("Filename")]
+        public string Filename { get; set; }
         public ContentSource Source { get; set; }
 
         public ContentEntity() { }
