@@ -142,7 +142,7 @@ namespace CMHCWebsite.Presenter.Controllers
         {
             ContentUtility cUtility = new ContentUtility();
 
-            return cUtility.GetContent(ContentSource.DynamoDb, key);
+            return cUtility.GetContent(ContentSource.S3, key);
         }
 
         private string BuildStaffingTable(string key)
