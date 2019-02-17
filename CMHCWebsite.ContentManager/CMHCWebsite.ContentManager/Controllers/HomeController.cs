@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CMHCWebsite.ContentManager.Models;
 using CMHCWebsite.Library.ContentManager;
+using CMHCWebsite.Library.ContentManager.Entities;
 
 namespace CMHCWebsite.ContentManager.Controllers
 {
@@ -37,7 +38,7 @@ namespace CMHCWebsite.ContentManager.Controllers
         {
             ContentUtility cUtility = new ContentUtility();
 
-            string originalContent = cUtility.GetContent(Library.ContentManager.Entities.ContentSource.S3, key);
+            string originalContent = cUtility.GetContent(ContentSource.S3, key);
 
             return null;
         }
