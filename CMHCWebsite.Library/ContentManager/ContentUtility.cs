@@ -10,6 +10,9 @@ using System.Net;
 using System.Data.SqlClient;
 using System.Data;
 using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.S3.Model;
+using System.IO;
+using Amazon.S3.Transfer;
 
 namespace CMHCWebsite.Library.ContentManager
 {
@@ -32,7 +35,7 @@ namespace CMHCWebsite.Library.ContentManager
             List<string> keys = new List<string>();
 
             List<ContentEntity> fullContent = ScanTable();
-            foreach(ContentEntity content in fullContent)
+            foreach (ContentEntity content in fullContent)
             {
                 keys.Add(content.ContentKey);
             }
@@ -48,7 +51,7 @@ namespace CMHCWebsite.Library.ContentManager
             SqlCommand command = new SqlCommand("GetActiveStaffByType", conn) { CommandType = CommandType.StoredProcedure };
             command.Parameters.Clear();
             int typeCode = ConvertStaffTypeToInt(sType);
-            if(typeCode > 0)
+            if (typeCode > 0)
                 command.Parameters.Add(new SqlParameter("@staffType", typeCode));
 
             try
@@ -113,6 +116,23 @@ namespace CMHCWebsite.Library.ContentManager
             }
         }
 
+        public bool UploadNewContent(string filename, string content, string key)
+        {
+            bool stts = false;
+
+            try
+            {
+                UploadFileToS3(filename, content);
+                UpdateReferncedFile(filename, content, key);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return stts;
+        }
+
         #region Private Methods
 
         private string GetContentFromDynamoDb(string key)
@@ -149,7 +169,75 @@ namespace CMHCWebsite.Library.ContentManager
 
         private string GetContentFromFile(string key)
         {
-            return string.Empty;
+            string filename = string.Empty;
+            string content = string.Empty;
+
+            try
+            {
+                AmazonDynamoDBConfig clientConfig = new AmazonDynamoDBConfig();
+                clientConfig.RegionEndpoint = RegionEndpoint.USEast1;
+
+                AmazonDynamoDBClient client = new AmazonDynamoDBClient(clientConfig);
+
+                GetItemRequest getItemRqst = new GetItemRequest();
+                getItemRqst.TableName = TABLE_NAME;
+                getItemRqst.Key = new Dictionary<string, AttributeValue>();
+                getItemRqst.Key.Add("ContentKey", new AttributeValue() { S = key });
+
+                var response = client.GetItemAsync(getItemRqst).Result;
+
+                if (response.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    filename = response.Item["Filename"].S;
+                }
+
+                if (!filename.Equals(string.Empty))
+                {
+                    AmazonS3Client s3Client = new AmazonS3Client(RegionEndpoint.USEast1);
+
+                    GetObjectRequest getRequest = new GetObjectRequest()
+                    {
+                        BucketName = S3_BUCKET_NAME,
+                        Key = filename
+                    };
+
+                    using (GetObjectResponse getResponse = s3Client.GetObjectAsync(getRequest).Result)
+                    using (Stream responseStream = getResponse.ResponseStream)
+                    using (StreamReader reader = new StreamReader(responseStream))
+                    {
+                        content = reader.ReadToEnd();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return content;
+        }
+
+        private bool UploadFileToS3(string filename, string content)
+        {
+            bool stts = false;
+
+            try
+            {
+                File.Create("~/" + filename);
+                File.WriteAllText("~/" + filename, content);
+
+                AmazonS3Client s3Client = new AmazonS3Client(RegionEndpoint.USEast1);
+
+                var fileTransferUtility = new TransferUtility(s3Client);
+                fileTransferUtility.Upload("~/" + filename, S3_BUCKET_NAME);
+                stts = true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return stts;
         }
 
         private STAFF_TYPE ConvertStringToStaffType(string input)
@@ -217,11 +305,43 @@ namespace CMHCWebsite.Library.ContentManager
                     case "Content":
                         content.ContentHtml = doc[attribute].AsString();
                         break;
+                    case "Filename":
+                        content.Filename = doc[attribute].AsString();
+                        break;
                     default:
                         break;
                 }
             }
             return content;
+        }
+
+        private bool UpdateReferncedFile(string filename, string content, string key)
+        {
+            bool stts = false;
+
+            AmazonDynamoDBConfig dConfig = new AmazonDynamoDBConfig();
+            dConfig.RegionEndpoint = RegionEndpoint.USEast1;
+
+            AmazonDynamoDBClient dClient = new AmazonDynamoDBClient(dConfig);
+
+            Dictionary<string, AttributeValue> item = new Dictionary<string, AttributeValue>();
+            item["ContentyKey"] = new AttributeValue() { S = key };
+            item["Content"] = new AttributeValue() { S = content };
+            item["Filename"] = new AttributeValue() { S = filename };
+
+            PutItemRequest putRequest = new PutItemRequest() { TableName = TABLE_NAME, Item = item };
+
+            try
+            {
+                var response = dClient.PutItemAsync(putRequest).Result;
+                stts = response.HttpStatusCode == HttpStatusCode.OK;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return stts;
         }
 
         #endregion
